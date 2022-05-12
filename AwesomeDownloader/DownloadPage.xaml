@@ -1,0 +1,45 @@
+﻿<Page x:Class="AwesomeDownloader.View.DownloadPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AwesomeDownloader.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DownloadPage">
+
+    <Border Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+            </Grid.RowDefinitions>
+            <TextBox x:Name="TextBox_URL"
+                     Grid.Row="1"
+                     Grid.Column="1" />
+            <Button x:Name="Button_Download"
+                    Grid.Column="3"
+                    Grid.Row="1" 
+                    Content="Herunterladen"/>
+            <DataGrid Grid.Row="3"
+                      Grid.Column="1"
+                      Grid.ColumnSpan="3">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dateiname" />
+                    <DataGridTextColumn Header="Länge" />
+                    <DataGridTextColumn Header="Größe" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</Page>
