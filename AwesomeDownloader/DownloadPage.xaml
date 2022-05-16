@@ -30,7 +30,8 @@
             <Button x:Name="Button_Download"
                     Grid.Column="3"
                     Grid.Row="1" 
-                    Content="Herunterladen"/>
+                    Content="Herunterladen"
+                    Click="Button_Download_Click" />
             <DataGrid Grid.Row="3"
                       Grid.Column="1"
                       Grid.ColumnSpan="3">

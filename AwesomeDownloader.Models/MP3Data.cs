@@ -1,5 +1,5 @@
 ﻿namespace AwesomeDownloader.Models {
-    public class DownloadFromYT {
+    public class MP3Data {
 
     }
 }
