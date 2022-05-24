@@ -33,5 +33,15 @@ namespace AwesomeDownloader.View
                 Directory.CreateDirectory(DownloadFolder);
 
         }
+
+        private void Button_DownloadPage_Click(object sender, RoutedEventArgs e) {
+            Frame_DownloadPage.Visibility = Visibility.Visible;
+            Frame_SettingsPage.Visibility = Visibility.Collapsed;
+        }
+
+        private void Button_SettingsPage_Click(object sender, RoutedEventArgs e) {
+            Frame_DownloadPage.Visibility = Visibility.Collapsed;
+            Frame_SettingsPage.Visibility = Visibility.Visible;
+        }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.com/icons/" 
         xmlns:local="clr-namespace:AwesomeDownloader"
         mc:Ignorable="d"
         Title="Awesome Downloader"
@@ -12,7 +13,7 @@
         Loaded="ADWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="5" />
         </Grid.ColumnDefinitions>
@@ -22,8 +23,24 @@
             <RowDefinition Height="5" />
         </Grid.RowDefinitions>
 
-        <Frame Source="DownloadPage.xaml"
+        <StackPanel Grid.Column="0"
+                    Grid.RowSpan="3">
+            <Button x:Name="Button_DownloadPage"
+                    fa:Awesome.Content="Solid_Download"
+                    Click="Button_DownloadPage_Click" />
+            <Button x:Name="Button_SettingsPage"
+                    fa:Awesome.Content="Solid_Wrench"
+                    Click="Button_SettingsPage_Click" />
+        </StackPanel>
+
+        <Frame x:Name="Frame_DownloadPage"
+               Source="DownloadPage.xaml"
                Grid.Row="1"
                Grid.Column="1" />
+        <Frame x:Name="Frame_SettingsPage"
+               Source="SettingsPage.xaml"
+               Grid.Row="1"
+               Grid.Column="1" 
+               Visibility="Collapsed"/>
     </Grid>
 </Window>

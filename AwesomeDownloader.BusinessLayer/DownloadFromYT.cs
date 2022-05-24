@@ -1,21 +1,23 @@
-﻿using VideoLibrary;
-using MediaToolkit;
+﻿using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
+using AwesomeDownloader.Models;
 
 namespace AwesomeDownloader.BusinessLayer {
     static public class DownloadFromYT {
-        static public void DownloadMP3(string path, string url) {
-            var youtube = YouTube.Default;
-            var vid = youtube.GetVideo(url);
-            File.WriteAllBytes(path + vid.FullName, vid.GetBytes());
+        static public async void DownloadMP3Async(string path, string url) {
+            var youtube = new YoutubeClient();
 
-            var inputFile = new MediaToolkit.Model.MediaFile { Filename = path + vid.FullName };
-            var outputFile = new MediaToolkit.Model.MediaFile { Filename = $"{path + vid.FullName}.mp3" };
+            // You can specify both video ID or URL https://www.youtube.com/watch?v=DjbVh4i0DIU
+            var video = await youtube.Videos.GetAsync(url);
 
-            using(var engine = new Engine()) {
-                engine.GetMetadata(inputFile);
+            var test = await youtube.Videos.Streams.GetManifestAsync(video.Id);
 
-                engine.Convert(inputFile, outputFile);
-            }
+
+            var streamInfo = test.GetAudioOnlyStreams().GetWithHighestBitrate();
+
+            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{video.Title}.mp3");
         }
+
+
     }
 }
