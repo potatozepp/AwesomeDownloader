@@ -22,17 +22,21 @@ namespace AwesomeDownloader.View {
         List<MP3Data> Songs { get; set; } = new List<MP3Data>();
 
         private void Button_Download_Click(object sender, RoutedEventArgs e) {
-            DownloadFromYT.DownloadMP3Async(DownloadFolder, TextBox_URL.Text);
-       
+            switch(ComboBox_FileType.SelectedIndex) {
+                case 0:
+                    DownloadFromYT.DownloadMP3Async(DownloadFolder, TextBox_URL.Text);
+                    break;
+                case 1:
+                    DownloadFromYT.DownloadMP4Async(DownloadFolder, TextBox_URL.Text);
+                    break;
+                case 2:
+                    DownloadFromYT.DownloadBothAsync(DownloadFolder, TextBox_URL.Text);
+                    break;
+            }
+
         }
 
         private void Window_DownloadPage_Loaded(object sender, RoutedEventArgs e) {
-            //Songs = new List<MP3Data>();
-            //foreach(var file in Directory.GetFiles(DownloadFolder)) {
-                
-
-
-            //}
         }
     }
 }
