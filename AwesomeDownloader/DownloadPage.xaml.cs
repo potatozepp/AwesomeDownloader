@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,19 +25,33 @@ namespace AwesomeDownloader.View {
         private void Button_Download_Click(object sender, RoutedEventArgs e) {
             switch(ComboBox_FileType.SelectedIndex) {
                 case 0:
-                    DownloadFromYT.DownloadMP3Async(DownloadFolder, TextBox_URL.Text);
+                    DownloadFromYT.DownloadMP3Async(GetSettings(), TextBox_URL.Text);
                     break;
                 case 1:
-                    DownloadFromYT.DownloadMP4Async(DownloadFolder, TextBox_URL.Text);
+                    DownloadFromYT.DownloadMP4Async(GetSettings(), TextBox_URL.Text);
                     break;
                 case 2:
-                    DownloadFromYT.DownloadBothAsync(DownloadFolder, TextBox_URL.Text);
+                    DownloadFromYT.DownloadBothAsync(GetSettings(), TextBox_URL.Text);
                     break;
             }
 
         }
-
+        public DownloadSettings GetSettings() {
+            return new DownloadSettings() {
+                DownloadFolder = UserSettings.Default.DownloadFolder,
+                Bitrate = UserSettings.Default.Bitrate,
+                VideoQuality = UserSettings.Default.VideoQuality
+            };
+        }
         private void Window_DownloadPage_Loaded(object sender, RoutedEventArgs e) {
+        }
+
+        private void Button_OpenDownloadFolder_Click(object sender, RoutedEventArgs e) {
+            ProcessStartInfo startInfo = new ProcessStartInfo() {
+                Arguments = UserSettings.Default.DownloadFolder,
+                FileName = "explorer.exe"
+            };
+            Process.Start(startInfo);
         }
     }
 }

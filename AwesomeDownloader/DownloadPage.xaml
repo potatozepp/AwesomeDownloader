@@ -28,6 +28,8 @@
                 <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
             </Grid.RowDefinitions>
             <TextBox x:Name="TextBox_URL"
                      Grid.Row="1"
@@ -52,7 +54,7 @@
             <DataGrid x:Name="DataGrid_DownloadedFiles"
                       Grid.Row="3"
                       Grid.Column="1"
-                      Grid.ColumnSpan="3"
+                      Grid.ColumnSpan="5"
                       DataContext="{Binding Path=Songs}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Dateiname" />
@@ -60,6 +62,12 @@
                     <DataGridTextColumn Header="Größe" />
                 </DataGrid.Columns>
             </DataGrid>
+
+            <Button x:Name="Button_OpenDownloadFolder"
+                    Content="Open Folder"
+                    Grid.Row="5"
+                    Grid.Column="5"
+                    Click="Button_OpenDownloadFolder_Click" />
         </Grid>
     </Border>
 </Page>

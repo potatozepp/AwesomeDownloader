@@ -31,6 +31,8 @@
             <Button x:Name="Button_SettingsPage"
                     fa:Awesome.Content="Solid_Wrench"
                     Click="Button_SettingsPage_Click" />
+            <Button x:Name="Button_MyFiles"
+                    fa:Awesome.Content="Regular_File" />
         </StackPanel>
 
         <Frame x:Name="Frame_DownloadPage"
