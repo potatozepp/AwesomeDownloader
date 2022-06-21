@@ -25,7 +25,7 @@ namespace AwesomeDownloader.View {
 
             ComboBox_VideoQuality.ItemsSource = videoQualities;
             ComboBox_VideoQuality.SelectedItem = UserSettings.Default.VideoQuality;
-            //ComboBox_Bitrate.SelectedIndex = ComboBox_Bitrate.Items.IndexOf(UserSettings.Default.Bitrate);
+            ComboBox_Bitrate.SelectedIndex = ComboBox_Bitrate.Items.IndexOf(UserSettings.Default.Bitrate);
         }
 
         private void Button_SaveSettings_Click(object sender, RoutedEventArgs e) {
