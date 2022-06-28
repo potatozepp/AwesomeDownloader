@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using NAudio;
 using System.Windows;
 using System.Windows.Controls;
 using AwesomeDownloader.BusinessLayer;
 using AwesomeDownloader.Models;
+using NAudio.Wave;
+using System.Collections.ObjectModel;
 
 namespace AwesomeDownloader.View {
     /// <summary>
@@ -18,36 +21,62 @@ namespace AwesomeDownloader.View {
             InitializeComponent();
         }
 
-        string DownloadFolder { get; set; } = @"C:\AwesomeDownloader\";
-        List<MP3Data> Songs { get; set; } = new List<MP3Data>();
+        ObservableCollection<DownloadPageFileViewModel> Songs { get; set; } = new ObservableCollection<DownloadPageFileViewModel>();
 
         private void Button_Download_Click(object sender, RoutedEventArgs e) {
             DownloadFromYT downloadFromYT = new DownloadFromYT();
+            string downloadFolder = UserSettings.Default.DownloadFolderPath;
 
             switch(ComboBox_FileType.SelectedIndex) {
                 case 0:
-                    downloadFromYT.DownloadMP3Async(DownloadFolder, TextBox_URL.Text);
+                    downloadFromYT.DownloadMP3Async(downloadFolder, TextBox_URL.Text);
                     break;
                 case 1:
-                    downloadFromYT.DownloadMP4Async(DownloadFolder, TextBox_URL.Text);
+                    downloadFromYT.DownloadMP4Async(downloadFolder, TextBox_URL.Text);
                     break;
                 case 2:
-                    downloadFromYT.DownloadMP3AndMP4Async(DownloadFolder, TextBox_URL.Text);
+                    downloadFromYT.DownloadMP3AndMP4(downloadFolder, TextBox_URL.Text);
                     break;
                 default:
                     break;
             }
-            .DownloadMP3Async(DownloadFolder, TextBox_URL.Text);
+            
        
         }
 
         private void Window_DownloadPage_Loaded(object sender, RoutedEventArgs e) {
-            //Songs = new List<MP3Data>();
-            //foreach(var file in Directory.GetFiles(DownloadFolder)) {
-                
+            string downloadFolder = UserSettings.Default.DownloadFolderPath;
+            if(!string.IsNullOrEmpty(downloadFolder)) {
+                if(!Directory.Exists(downloadFolder)) {
+                    Directory.CreateDirectory(downloadFolder);
+                }
+            } else {
+                MessageBox.Show("Please select a download folder", "AwesomeDownloader", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
+            LoadFilesToDataGrid();
+        }
 
-            //}
+        private void LoadFilesToDataGrid() {
+            string downloadFolder = UserSettings.Default.DownloadFolderPath;
+            string[] filePaths = Directory.GetFiles(downloadFolder);
+            foreach(var item in filePaths) {
+                if(Path.GetExtension(item) == ".mp3") {
+                    MediaFoundationReader mp3FileReader = new MediaFoundationReader(item);
+                    DownloadPageFileViewModel dpfvm = new DownloadPageFileViewModel();
+
+                    dpfvm.FileName = Path.GetFileNameWithoutExtension(item);
+                    dpfvm.FileType = Path.GetExtension(item);
+                    dpfvm.Duration = mp3FileReader.TotalTime.ToString(@"hh\:mm\:ss");
+
+                    Songs.Add(dpfvm);
+                }
+            }
+            DataGrid_DownloadedFiles.ItemsSource = Songs;
+        }
+
+        private void Button_OpenFolder_Click(object sender, RoutedEventArgs e) {
+            Process.Start(UserSettings.Default.DownloadFolderPath);
         }
     }
 }

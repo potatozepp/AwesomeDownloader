@@ -30,7 +30,7 @@ namespace AwesomeDownloader.BusinessLayer {
             await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{video.Title}.mp4");
         }
 
-        public async void DownloadMP3AndMP4Async(string path, string url) {
+        public void DownloadMP3AndMP4(string path, string url) {
             DownloadMP3Async(path, url);
             DownloadMP4Async(path, url);
         }
