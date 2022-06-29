@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace AwesomeDownloader.BusinessLayer {
     static public class DownloadFromYT {
+        
         static public async void DownloadMP3Async(DownloadSettings settings, string url) {
             var youtube = new YoutubeClient();
 
@@ -15,10 +16,13 @@ namespace AwesomeDownloader.BusinessLayer {
 
             var test = await youtube.Videos.Streams.GetManifestAsync(video.Id);
 
+            var title = video.Title.Replace("|", "_").Replace(":", "_");
 
             var streamInfo = test.GetAudioOnlyStreams().GetWithHighestBitrate();
 
-            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{settings.DownloadFolder}\\{video.Title}.mp3");
+            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{settings.DownloadFolder}\\{title}.mp3");
+
+            
         }
 
         static public async void DownloadMP4Async(DownloadSettings settings, string url) {
@@ -26,19 +30,14 @@ namespace AwesomeDownloader.BusinessLayer {
 
             // You can specify both video ID or URL https://www.youtube.com/watch?v=DjbVh4i0DIU
             var video = await youtube.Videos.GetAsync(url);
+            var titleBad = video.Title;
+            var title = titleBad.Replace("|", "_");
+            var test = await youtube.Videos.Streams.GetManifestAsync(video.Id);
+            var streamInfoVid = test.GetMuxedStreams().GetWithHighestBitrate();
+            await youtube.Videos.Streams.DownloadAsync(streamInfoVid, $"{settings.DownloadFolder}\\{title}.mp4");
 
-            var streamManifest = await youtube.Videos.Streams.GetManifestAsync(video.Id);
-
-            var bitrateString = int.Parse(Regex.Match(settings.Bitrate, @"\d+").Value);
-            Bitrate bitrate = new Bitrate(bitrateString * 1024);
 
 
-            // Select streams (1080p60 / highest bitrate audio)
-            var audioStreamInfo = streamManifest.GetAudioStreams().GetWithHighestBitrate();
-            var videoStreamInfo = streamManifest.GetVideoStreams().First(s => s.VideoQuality.Label == settings.VideoQuality);
-            var streamInfos = new IStreamInfo[] { audioStreamInfo, videoStreamInfo };
-            string path = $"{ settings.DownloadFolder }{ video.Title}.mp4";
-            await youtube.Videos.DownloadAsync(streamInfos, new ConversionRequestBuilder(path).Build());
 
 
             Console.WriteLine("download finished");            
@@ -57,9 +56,11 @@ namespace AwesomeDownloader.BusinessLayer {
 
             var streamInfoAud = test.GetAudioOnlyStreams().GetWithHighestBitrate();
             var streamInfoVid = test.GetMuxedStreams().GetWithHighestBitrate();
+            var titleBad = video.Title;
+            var title = titleBad.Replace("|", "_");
 
-            await youtube.Videos.Streams.DownloadAsync(streamInfoAud, $"{settings.DownloadFolder}\\{video.Title}.mp3");
-            await youtube.Videos.Streams.DownloadAsync(streamInfoVid, $"{settings.DownloadFolder}\\{video.Title}.mp4");
+            await youtube.Videos.Streams.DownloadAsync(streamInfoAud, $"{settings.DownloadFolder}\\{title}.mp3");
+            await youtube.Videos.Streams.DownloadAsync(streamInfoVid, $"{settings.DownloadFolder}\\{title}.mp4");
         }
 
 

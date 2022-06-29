@@ -23,6 +23,9 @@ namespace AwesomeDownloader.View {
         List<MP3Data> Songs { get; set; } = new List<MP3Data>();
 
         private void Button_Download_Click(object sender, RoutedEventArgs e) {
+            MessageBox.Show("Download started");
+            ProgressBar progressBar = new ProgressBar();
+            progressBar.Value = 10;
             switch(ComboBox_FileType.SelectedIndex) {
                 case 0:
                     DownloadFromYT.DownloadMP3Async(GetSettings(), TextBox_URL.Text);
