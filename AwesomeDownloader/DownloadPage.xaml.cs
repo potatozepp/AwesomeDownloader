@@ -23,19 +23,22 @@ namespace AwesomeDownloader.View {
 
         ObservableCollection<DownloadPageFileViewModel> Songs { get; set; } = new ObservableCollection<DownloadPageFileViewModel>();
 
-        private void Button_Download_Click(object sender, RoutedEventArgs e) {
+        private async void Button_Download_Click(object sender, RoutedEventArgs e) {
             DownloadFromYT downloadFromYT = new DownloadFromYT();
             string downloadFolder = UserSettings.Default.DownloadFolderPath;
 
             switch(ComboBox_FileType.SelectedIndex) {
                 case 0:
-                    downloadFromYT.DownloadMP3Async(downloadFolder, TextBox_URL.Text);
+                    await downloadFromYT.DownloadMP3Async(downloadFolder, TextBox_URL.Text);
+                    LoadFilesToDataGrid();
                     break;
                 case 1:
-                    downloadFromYT.DownloadMP4Async(downloadFolder, TextBox_URL.Text);
+                    await downloadFromYT.DownloadMP4Async(downloadFolder, TextBox_URL.Text);
+                    LoadFilesToDataGrid();
                     break;
                 case 2:
-                    downloadFromYT.DownloadMP3AndMP4(downloadFolder, TextBox_URL.Text);
+                    await downloadFromYT.DownloadMP3AndMP4(downloadFolder, TextBox_URL.Text);
+                    LoadFilesToDataGrid();
                     break;
                 default:
                     break;
@@ -76,7 +79,12 @@ namespace AwesomeDownloader.View {
         }
 
         private void Button_OpenFolder_Click(object sender, RoutedEventArgs e) {
-            Process.Start(UserSettings.Default.DownloadFolderPath);
+            string downloadFolder = UserSettings.Default.DownloadFolderPath;
+            Process.Start("explorer.exe",downloadFolder);
+        }
+
+        private void Button_LoadFiles_Click(object sender, RoutedEventArgs e) {
+            LoadFilesToDataGrid();
         }
     }
 }

@@ -37,5 +37,9 @@ namespace AwesomeDownloader.View {
             UserSettings.Default.DownloadFolderPath = TextBox_DownloadfolderPath.Text;
             UserSettings.Default.Save();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            TextBox_DownloadfolderPath.Text = UserSettings.Default.DownloadFolderPath;
+        }
     }
 }

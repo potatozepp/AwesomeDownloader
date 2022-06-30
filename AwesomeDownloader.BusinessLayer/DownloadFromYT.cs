@@ -4,7 +4,7 @@ using AwesomeDownloader.Models;
 
 namespace AwesomeDownloader.BusinessLayer {
     public class DownloadFromYT {
-        public async void DownloadMP3Async(string path, string url) {
+        public async Task DownloadMP3Async(string path, string url) {
             var youtube = new YoutubeClient();
 
             // You can specify both video ID or URL https://www.youtube.com/watch?v=hhxjSaF0Ek4
@@ -15,10 +15,13 @@ namespace AwesomeDownloader.BusinessLayer {
 
             var streamInfo = test.GetAudioOnlyStreams().GetWithHighestBitrate();
 
-            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{video.Title}.mp3");
+            string title = video.Title.Replace("|", "");
+            title = title.Replace("\\", "");
+            title = title.Replace("/", "");
+            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp4"); 
         }
 
-        public async void DownloadMP4Async(string path, string url) {
+        public async Task DownloadMP4Async(string path, string url) {
             var youtube = new YoutubeClient();
 
             var video = await youtube.Videos.GetAsync(url);
@@ -26,13 +29,15 @@ namespace AwesomeDownloader.BusinessLayer {
             var test = await youtube.Videos.Streams.GetManifestAsync(video.Id);
 
             var streamInfo = test.GetMuxedStreams().GetWithHighestBitrate();
-
-            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{video.Title}.mp4");
+            string title = video.Title.Replace("|", "");
+            title = title.Replace("\\", "");
+            title = title.Replace("/", "");
+            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp4");
         }
 
-        public void DownloadMP3AndMP4(string path, string url) {
-            DownloadMP3Async(path, url);
-            DownloadMP4Async(path, url);
+        public async Task DownloadMP3AndMP4(string path, string url) {
+            await DownloadMP3Async(path, url);
+            await DownloadMP4Async(path, url);
         }
 
     }
