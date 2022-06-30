@@ -11,6 +11,7 @@ using AwesomeDownloader.BusinessLayer;
 using AwesomeDownloader.Models;
 using NAudio.Wave;
 using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
 
 namespace AwesomeDownloader.View {
     /// <summary>
@@ -54,7 +55,15 @@ namespace AwesomeDownloader.View {
                     Directory.CreateDirectory(downloadFolder);
                 }
             } else {
-                MessageBox.Show("Please select a download folder", "AwesomeDownloader", MessageBoxButton.OK, MessageBoxImage.Error);
+                string input = Interaction.InputBox("Please select a Download Folder (Can be changed in Settings)", "DownloadFolder Edit", @"C:\AwesomeDownloader", 10, 10);
+                if (input != "")
+                {
+                    UserSettings.Default.DownloadFolderPath = input;
+                }
+                else
+                {
+                    UserSettings.Default.DownloadFolderPath = @"C:\AwesomeDownloader";
+                }
             }
 
             LoadFilesToDataGrid();
