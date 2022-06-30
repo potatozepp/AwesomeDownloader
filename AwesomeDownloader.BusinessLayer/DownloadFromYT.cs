@@ -16,6 +16,7 @@ namespace AwesomeDownloader.BusinessLayer {
             var streamInfo = test.GetAudioOnlyStreams().GetWithHighestBitrate();
 
             string title = video.Title.Replace("|", "");
+            title = title.Replace(":", "");
             title = title.Replace("\\", "");
             title = title.Replace("/", "");
             await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp3"); 
@@ -30,6 +31,7 @@ namespace AwesomeDownloader.BusinessLayer {
 
             var streamInfo = test.GetMuxedStreams().GetWithHighestBitrate();
             string title = video.Title.Replace("|", "");
+            title = title.Replace(":", "");
             title = title.Replace("\\", "");
             title = title.Replace("/", "");
             await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp4");

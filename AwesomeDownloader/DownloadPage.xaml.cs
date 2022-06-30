@@ -32,14 +32,17 @@ namespace AwesomeDownloader.View {
                 case 0:
                     await downloadFromYT.DownloadMP3Async(downloadFolder, TextBox_URL.Text);
                     LoadFilesToDataGrid();
+                    MessageBox.Show("Download finished");
                     break;
                 case 1:
                     await downloadFromYT.DownloadMP4Async(downloadFolder, TextBox_URL.Text);
                     LoadFilesToDataGrid();
+                    MessageBox.Show("Download finished");
                     break;
                 case 2:
                     await downloadFromYT.DownloadMP3AndMP4(downloadFolder, TextBox_URL.Text);
                     LoadFilesToDataGrid();
+                    MessageBox.Show("Download finished");
                     break;
                 default:
                     break;
@@ -72,7 +75,8 @@ namespace AwesomeDownloader.View {
         private void LoadFilesToDataGrid() {
             string downloadFolder = UserSettings.Default.DownloadFolderPath;
             string[] filePaths = Directory.GetFiles(downloadFolder);
-            foreach(var item in filePaths) {
+            Songs.Clear();
+            foreach (var item in filePaths) {
                 if(Path.GetExtension(item) == ".mp3") {
                     MediaFoundationReader mp3FileReader = new MediaFoundationReader(item);
                     DownloadPageFileViewModel dpfvm = new DownloadPageFileViewModel();
