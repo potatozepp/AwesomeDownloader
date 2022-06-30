@@ -18,7 +18,7 @@ namespace AwesomeDownloader.BusinessLayer {
             string title = video.Title.Replace("|", "");
             title = title.Replace("\\", "");
             title = title.Replace("/", "");
-            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp4"); 
+            await youtube.Videos.Streams.DownloadAsync(streamInfo, $"{path}\\{title}.mp3"); 
         }
 
         public async Task DownloadMP4Async(string path, string url) {
